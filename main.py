@@ -39,7 +39,7 @@ def login(uid):
 		return 101
 
 @server.route('/0x01/<uid>') # logout
-def logout(uid)
+def logout(uid):
 	if not findUsr(uid) == 102:
 		usrtable[findUsr(uid)][0] = 0
 		usrtable[findUsr(uid)][1] = 0
