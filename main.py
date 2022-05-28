@@ -4,7 +4,7 @@ import random
 
 # 100-ok 101-server full 102-usr not found 103-rooms full
 
-server = Flask(__name__)
+app = Flask(__name__)
 
 usrtable = [[0, 0]] * 6
 
@@ -30,7 +30,7 @@ def findUsr(UID):
 	return tmp
 
 
-@server.route('/0x00/<uid>') # login
+@app.route('/0x00/<uid>') # login
 def login(uid):
 	if not getUsr() == 101:
 		usrtable[getUsr()][0] = uid
@@ -38,7 +38,7 @@ def login(uid):
 	else:
 		return 101
 
-@server.route('/0x01/<uid>') # logout
+@app.route('/0x01/<uid>') # logout
 def logout(uid):
 	if not findUsr(uid) == 102:
 		usrtable[findUsr(uid)][0] = 0
@@ -47,7 +47,7 @@ def logout(uid):
 	else:
 		return 102
 
-@server.route('/0x02/<uid>') # request match
+@app.route('/0x02/<uid>') # request match
 def getRoom(uid):
 	global usrtable, roomtable
 	tmp = 103
@@ -62,7 +62,7 @@ def getRoom(uid):
 			break
 	return tmp
 
-@server.route('/0x03/<uid>') # get usr status
+@app.route('/0x03/<uid>') # get usr status
 def getUsrStats(uid):
 	global usrtable
 	if not findUsr(uid) == 102:
@@ -71,4 +71,4 @@ def getUsrStats(uid):
 		return 102
 
 if __name__ == '__main__':
-    server.run(debug=True, port=os.environ.get('PORT', "8080"))
+    app.run(debug=True, port=os.environ.get('PORT', "8080"))
