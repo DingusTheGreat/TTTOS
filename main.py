@@ -71,4 +71,4 @@ def getUsrStats(uid):
 		return 102
 
 if __name__ == '__main__':
-    app.run(debug=True, port=os.environ.get('PORT', "8080"))
+    server.run(debug=True, port=os.environ.get('PORT', "8080"))
