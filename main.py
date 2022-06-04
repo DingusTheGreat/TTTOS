@@ -32,29 +32,32 @@ def findUsr(UID):
 
 @app.route('/0x00/<uid>') # login
 def login(uid):
+	print(usrtable)
 	if not getUsr() == 101:
 		usrtable[getUsr()][0] = uid
-		return 100
+		return "100"
 	else:
-		return 101
+		return "101"
 
 @app.route('/0x01/<uid>') # logout
 def logout(uid):
-	if not findUsr(uid) == 102:
-		usrtable[findUsr(uid)][0] = 0
-		usrtable[findUsr(uid)][1] = 0
-		return 100
+	print(usrtable)
+	tmp = findUsr(uid)
+	if not tmp == 102:
+		usrtable[tmp][0] = 0
+		usrtable[tmp][1] = 0
+		return "100"
 	else:
-		return 102
+		return "102"
 
 @app.route('/0x02/<uid>') # request match
 def getRoom(uid):
 	global usrtable, roomtable
-	tmp = 103
+	tmp = "103"
 	for i in range(3):
 		if roomtable[i][0] == 0 and roomtable[i][1] == 0:
 			roomtable[i][0] = uid
-			tmp = 100
+			tmp = "100"
 			break
 		if not roomtable[i][0] == 0 and roomtable[i][1] == 0:
 			roomtable[i][1] = uid
@@ -66,9 +69,13 @@ def getRoom(uid):
 def getUsrStats(uid):
 	global usrtable
 	if not findUsr(uid) == 102:
-		return usrtable[findUsr(uid)][1]
+		return str(usrtable[findUsr(uid)][1])
 	else:
-		return 102
+		return "102"
+
+@app.route('/debug')
+def DB():
+	return jsonify({"stuffs" : usrtable})
 
 if __name__ == '__main__':
     app.run(debug=True, port=os.environ.get('PORT', "8080"))
